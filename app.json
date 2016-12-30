@@ -1,0 +1,23 @@
+{
+  "name": "FCC Voting App",
+  "description": "A voting app that allows users to create and vote on polls",
+  "repository": "https://github.com/rajaraodv/react-redux-blog",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["node", "express", "React", "React.js", "React", "Redux", "JavaScript", "MongoDB", "jwt"],
+  "image": "heroku/nodejs",
+  "env": {
+  	"NODE_ENV": {
+  		"description": "Node environment",
+  		"value": "production"
+  	},
+    "JWT_SECRET": {
+      "description": "A secret string to generate JWT tokens (REQUIRED)",
+      "value":""
+    },
+    "FROM_EMAIL": {
+      "description": "A *validated* from-email address to send emails from(REQUIRED)",
+      "value":""
+    }
+  },
+  "addons": ["mongolab", "postmark:10k"]
+}
