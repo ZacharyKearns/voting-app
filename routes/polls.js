@@ -49,10 +49,6 @@ router.post('/polls', function(req, res, next) {
     return res.status(401).json({
       message: 'Permission Denied!'
     });
-  } else if (!user.isEmailVerified) {
-    return res.status(401).json({
-      message: 'Permission Denied! Please verify your email.'
-    });
   }
 
   console.dir(req.user);
@@ -121,7 +117,7 @@ router.get('/polls/:id', function(req, res, next) {
 });
 
 router.delete('/polls/:id', function(req, res, next) {
-  if (!req.user || !req.user.isEmailVerified) {
+  if (!req.user) {
     return res.status(401).json({
       message: 'Permission Denied!'
     });

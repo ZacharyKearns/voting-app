@@ -11,7 +11,7 @@ var jwt = require('jsonwebtoken');
 
 //routes
 var users = require('./routes/users');
-var posts = require('./routes/polls');
+var polls = require('./routes/polls');
 
 var app = express();
 
@@ -26,9 +26,8 @@ app.get('*.js', function (req, res, next) {
   next();
 });
 
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Request-Headers", "*");
@@ -61,7 +60,7 @@ app.use(function(req, res, next) {
     if (err) {
       return res.status(401).json({
         success: false,
-        message: 'Please register Log in using a valid email to submit posts'
+        message: 'Please register Log in using a valid username to submit posts'
       });
     } else {
       req.user = user;
@@ -78,7 +77,6 @@ app.use(express.static(staticPath));
 app.use('/', express.static(staticPath));
 app.use('/polls/*', express.static(staticPath));
 app.use('/new/*', express.static(staticPath));
-app.use('/validateEmail/*', express.static(staticPath));
 
 
 

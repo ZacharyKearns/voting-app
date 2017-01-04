@@ -8,8 +8,7 @@ function generateToken(user) {
     username: user.username,
     admin: user.admin,
     _id: user._id.toString(),
-    image: user.image,
-    isEmailVerified: user.isEmailVerified //used to prevent creating posts w/o verifying emails
+    image: user.image
   };
 
   return token = jwt.sign(u, process.env.JWT_SECRET, {
@@ -21,16 +20,8 @@ function validateSignUpForm(values, callback) {
   var errors = {};
   var hasErrors = false;
 
-  if (!values.name || values.name.trim() === '') {
-    errors.name = 'Enter a name';
-    hasErrors = true;
-  }
   if (!values.username || values.username.trim() === '') {
     errors.username = 'Enter username';
-    hasErrors = true;
-  }
-  if (!values.email || values.email.trim() === '') {
-    errors.email = 'Enter email';
     hasErrors = true;
   }
   if (!values.password || values.password.trim() === '') {
@@ -55,7 +46,7 @@ function validateSignUpForm(values, callback) {
   }
 }
 
-//strips internal fields like password and verifyEmailToken etc
+//strips internal fields like password etc
 function getCleanUser(user) {
   if(!user) return {};
 
@@ -64,12 +55,10 @@ function getCleanUser(user) {
     _id: u._id,
     name: u.name,
     username: u.username,
-    email: u.email,
     admin: u.admin,
     createdAt: u.createdAt,
     updatedAt: u.updatedAt,
-    image: u.image,
-    isEmailVerified: u.isEmailVerified
+    image: u.image
   }
 }
 
