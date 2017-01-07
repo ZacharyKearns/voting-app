@@ -18,8 +18,8 @@ pollSchema.plugin(timestamps);
 var Poll = mongoose.model('Poll', pollSchema);
 
 
-
 router.get('/polls', function(req, res, next) {
+  console.log(req.params)
   Poll
     .find({})
     .select({
@@ -79,7 +79,6 @@ router.post('/polls', function(req, res, next) {
   var poll = new Poll({
     title: title,
     options: options.split(','),
-    authorName: req.user.name,
     authorUsername: req.user.username,
     authorId: req.user._id,
     authorImage: req.user.image
@@ -98,6 +97,7 @@ router.post('/polls', function(req, res, next) {
 });
 
 router.get('/polls/:id', function(req, res, next) {
+  console.log(req.params)
   Poll.findById({
     '_id': req.params.id
   }, function(err, poll) {

@@ -26,6 +26,16 @@ export default function(state = INITIAL_STATE, action) {
 	  case RESET_POLLS:// reset pollList to initial state
 	    return { ...state, pollsList: {polls: [], error: null, loading: false} };
 
+		case FETCH_POLL:
+	    return { ...state, activePoll: {...state.activePoll, loading: true}};
+	  case FETCH_POLL_SUCCESS:
+	    return { ...state, activePoll: {poll: action.payload, error: null, loading: false}};
+	  case FETCH_POLL_FAILURE:
+	    error = action.payload || {message: action.payload.message};//2nd one is network or server down errors
+	    return { ...state, activePoll: {poll: null, error: error, loading: false}};
+	  case RESET_ACTIVE_POLL:
+	    return { ...state, activePoll: {poll: null, error: null, loading: false}};
+
 	  case CREATE_POLL:
 	  	return {...state, newPoll: {...state.newPoll, loading: true}}
 	  case CREATE_POLL_SUCCESS:
@@ -55,7 +65,7 @@ export default function(state = INITIAL_STATE, action) {
 	    if(!result) {
 	      error = {message: action.payload.message};
 	    } else {
-	      error = {title: result.title, categories: result.categories, description: result.description};
+	      error = {title: result.title, options: result.options, description: result.description};
 	    }
 	    return {...state, newPoll: {...state.newPoll, error: error, loading: false}}
 	  case RESET_POLL_FIELDS:

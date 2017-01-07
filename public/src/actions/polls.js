@@ -62,7 +62,7 @@ export function fetchPollsFailure(error) {
 
 export function validatePollFields(props) {
   //note: we cant have /polls/validateFields because it'll match /polls/:id path!
-  const request = axios.poll(`${ROOT_URL}/polls/validate/fields`, props);
+  const request = axios.post(`${ROOT_URL}/polls/validate/fields`, props);
 
   return {
     type: VALIDATE_POLL_FIELDS,
@@ -91,7 +91,7 @@ export function resetPollFields() {
 
 export function createPoll(props, tokenFromStorage) {
   const request = axios({
-    method: 'poll',
+    method: 'post',
     data: props,
     url: `${ROOT_URL}/polls`,
     headers: {

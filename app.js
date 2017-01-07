@@ -60,7 +60,7 @@ app.use(function(req, res, next) {
     if (err) {
       return res.status(401).json({
         success: false,
-        message: 'Please register Log in using a valid username to submit posts'
+        message: 'Please log in using a valid username to submit polls'
       });
     } else {
       req.user = user;

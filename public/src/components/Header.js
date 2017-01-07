@@ -76,7 +76,7 @@ class Header extends Component {
   						<Link to="/">Back To Index</Link>
   					</li>
       			<li>
-        			<button onClick={()=> {this.props.onDeleteClick()}}>Delete Poll</button>
+        			<a onClick={()=> {this.props.onDeleteClick()}}>Delete Poll</a>
         		</li>
             {this.renderLoginLinks(authenticatedUser)}
           </ul>
