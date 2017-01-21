@@ -72,7 +72,7 @@ class PollsForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.newPoll.poll && !nextProps.newPoll.error) {
+    if (nextProps.newPoll.poll && !nextProps.newPoll.error || !nextProps.user) {
       this.context.router.push('/');
     }
   }
@@ -96,13 +96,15 @@ class PollsForm extends Component {
         <form className="col-md-6 col-md-offset-3" onSubmit={ handleSubmit(validateAndCreatePoll) }>
           <Field
              name="title"
-             type="text"
              component={ renderField }
+             type="text"
+             placeholder="Enter the title of your poll"
              label="Title"/>
           <Field
              name="options"
+             component={ renderTextArea }
              type="text"
-             component={ renderField }
+             placeholder="Enter an unlimited number of options separated by commas"
              label="Options"/>
           <div>
             <button

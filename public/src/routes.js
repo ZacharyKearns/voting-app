@@ -16,5 +16,6 @@ export default (
     <Route path="polls/:id" component={PollsShow} />
     <Route path="/login" component={Login} />
     <Route path="/signup" component={SignUp} />
+    <Route path="/mypolls" component={MyPolls} />
   </Route>
 );

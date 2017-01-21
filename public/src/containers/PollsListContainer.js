@@ -5,7 +5,8 @@ import PollsList from '../components/PollsList';
 
 const mapStateToProps = (state) => {
   return {
-    pollsList: state.polls.pollsList
+    pollsList: state.polls.pollsList,
+    user: state.user
   };
 }
 

@@ -6,6 +6,7 @@ import Header from '../components/Header.js';
 
 function mapStateToProps(state) {
   return {
+    activePoll: state.polls.activePoll,
     deletedPoll: state.polls.deletedPoll,
     authenticatedUser: state.user.status === 'authenticated' ? state.user.user : null,
     user: state.user

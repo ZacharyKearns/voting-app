@@ -14,7 +14,8 @@ const mapDispatchToProps = (dispatch) => {
 
 function mapStateToProps(state, ownProps) {
   return {
-    newPoll: state.polls.newPoll
+    newPoll: state.polls.newPoll,
+    user: state.user.user
   };
 }
 

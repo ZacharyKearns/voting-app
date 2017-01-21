@@ -17,7 +17,7 @@ class PollsShow extends Component {
   render() {
     return (
       <div className='container'>
-        <Header type="polls_show" postId={this.props.params.id}/>
+        <Header type="polls_show" pollId={this.props.params.id}/>
         <PollDetailsContainer id={this.props.params.id}/>
       </div>
     );

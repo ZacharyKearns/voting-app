@@ -7,7 +7,7 @@ class PollsIndex extends Component {
     return (
       <div>
         <HeaderContainer type="polls_index"/>
-        <PollsList />
+        <PollsList type="polls_index"/>
       </div>
     );
   }

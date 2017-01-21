@@ -19,7 +19,6 @@ var Poll = mongoose.model('Poll', pollSchema);
 
 
 router.get('/polls', function(req, res, next) {
-  console.log(req.params)
   Poll
     .find({})
     .select({

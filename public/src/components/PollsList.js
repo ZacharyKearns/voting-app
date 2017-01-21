@@ -16,6 +16,23 @@ class PollsList extends Component {
   }
 
   renderPolls(polls) {
+    const { type, user } = this.props;
+    if (type === 'mypolls') {
+      if (user.user && user.status === "authenticated") {
+        return polls.filter(poll => user.user._id === poll.authorId)
+                    .map((poll) => {
+                      return (
+                        <li className="list-group-item" key={poll._id}>
+                          <Link style={{color:'black'}} to={"polls/" + poll._id}>
+                            <h3 className="list-group-item-heading">{poll.title}</h3>
+                          </Link>
+                            {this.renderOptions(poll.options)}
+                        </li>
+                      );
+                    });
+      }
+    }
+
     return polls.map((poll) => {
       return (
         <li className="list-group-item" key={poll._id}>

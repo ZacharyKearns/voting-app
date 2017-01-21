@@ -16,7 +16,6 @@ const mapDispatchToProps = (dispatch) => {
     fetchPoll: (id) => {
       dispatch(fetchPoll(id))
         .then((result) => {
-          console.log(result)
           // Note: Error's "data" is in result.payload.response.data (inside "response")
           // success's "data" is in result.payload.data
           if (result.payload.response && result.payload.response.status !== 200) {
