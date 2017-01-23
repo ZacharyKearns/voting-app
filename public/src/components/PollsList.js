@@ -6,11 +6,17 @@ class PollsList extends Component {
     this.props.fetchPolls();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.type === 'mypolls' && !nextProps.user.user) {//user logout
+      this.context.router.push('/');
+    }
+  }
+
   renderOptions(options) {
      return options.map(o => {
         o = o.trim();
         return (
-          <Link to={"filter/" + o} key={o} className="list-group-item-text">{" " + o + " "}</Link>
+          <span className="list-group-item-text">{" " + o + " "}</span>
         );
      });
   }
@@ -21,6 +27,7 @@ class PollsList extends Component {
       if (user.user && user.status === "authenticated") {
         return polls.filter(poll => user.user._id === poll.authorId)
                     .map((poll) => {
+                      console.log(poll.options)
                       return (
                         <li className="list-group-item" key={poll._id}>
                           <Link style={{color:'black'}} to={"polls/" + poll._id}>

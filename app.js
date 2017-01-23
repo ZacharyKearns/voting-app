@@ -115,11 +115,9 @@ app.use(function(err, req, res, next) {
   }
 });
 
-console.log(process.env.MONGO_URI);
 
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/polls');
 var db = mongoose.connection;
-console.log(db.base.Mongoose);
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('DB connected!');
