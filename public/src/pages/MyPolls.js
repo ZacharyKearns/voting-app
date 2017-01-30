@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
-import HeaderContainer from '../containers/HeaderContainer.js';
+import React, { Component, PropTypes } from 'react';
+import Header from '../containers/HeaderContainer.js';
 import PollsList from '../containers/PollsListContainer.js';
 
 class MyPolls extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  };
+
   render() {
     return (
       <div>
-        <HeaderContainer type="mypolls"/>
+        <Header type="mypolls"/>
         <PollsList type="mypolls"/>
       </div>
     );

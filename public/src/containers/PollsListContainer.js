@@ -1,21 +1,25 @@
 import { connect } from 'react-redux'
-import { fetchPolls, fetchPollsSuccess, fetchPollsFailure } from '../actions/polls';
+import { fetchPolls, fetchPollsSuccess, fetchPollsFailure, resetPolls } from '../actions/polls';
 import PollsList from '../components/PollsList';
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
     pollsList: state.polls.pollsList,
-    user: state.user
+    user: state.user,
+    authenticatedUser: state.user.status === 'authenticated' ? state.user.user : null
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchPolls: () => {
-      dispatch(fetchPolls()).then((response) => {
-            !response.error ? dispatch(fetchPollsSuccess(response.payload.data)) : dispatch(fetchPollsFailure(response.payload.data));
+    fetchPolls: (type, user) => {
+      dispatch(fetchPolls(type, user)).then((response) => {
+            !response.error ? dispatch(fetchPollsSuccess(response.payload.data)) : dispatch(fetchPollsFailure(response.payload));
           });
+    },
+    resetMe: () => {
+      dispatch(resetPolls());
     }
   }
 }

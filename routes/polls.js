@@ -7,7 +7,7 @@ var expressJwt = require('express-jwt');
 
 var pollSchema = mongoose.Schema({
   title: String,
-  options: [String],
+  options: [{ option: String, votes: Number }],
   authorName: String,
   authorUsername: String,
   authorId: String
@@ -19,8 +19,11 @@ var Poll = mongoose.model('Poll', pollSchema);
 
 
 router.get('/polls', function(req, res, next) {
+  const authorId = req.query.type === 'mypolls' ? JSON.parse(req.query.user)._id : null;
+  const query = authorId ? { authorId } : {};
+
   Poll
-    .find({})
+    .find(query)
     .select({
       __v: 0,
       updatedAt: 0,
@@ -54,7 +57,10 @@ router.post('/polls', function(req, res, next) {
 
   var body = req.body;
   var title = body.title;
-  var options = body.options;
+  var options = body.options.split(',')
+  .map(function(option) {
+    return { option: option.trim(), votes: 0 };
+  });
 
   //simulate error if title, categories and content are all "test"
   //This is demo field-validation error upon submission.
@@ -77,7 +83,7 @@ router.post('/polls', function(req, res, next) {
 
   var poll = new Poll({
     title: title,
-    options: options.split(','),
+    options: options,
     authorUsername: req.user.username,
     authorId: req.user._id,
     authorImage: req.user.image

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { reduxForm, Field } from 'redux-form';
 
 class PollDetails extends Component {
   static contextTypes = {
@@ -26,10 +27,14 @@ class PollDetails extends Component {
       return <span/>
     }
 
+    const options = poll.options.map(option => <option>{option.option}</option>);
+
     return (
-      <div className="container">
+      <div className="col-md-6 col-md-offset-3">
         <h3>{poll.title}</h3>
-        <h6>Options: {poll.options}</h6>
+        <select class="form-control">
+          {options}
+        </select>
       </div>
     );
   }

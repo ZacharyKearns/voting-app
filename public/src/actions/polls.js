@@ -33,11 +33,15 @@ export const RESET_DELETED_POLL = 'RESET_DELETED_POLL';
 
 
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
-export function fetchPolls() {
+export function fetchPolls(type, user) {
   const request = axios({
     method: 'get',
     url: `${ROOT_URL}/polls`,
-    headers: []
+    headers: [],
+    params: {
+      type,
+      user
+    }
   });
 
   return {
@@ -58,6 +62,12 @@ export function fetchPollsFailure(error) {
     type: FETCH_POLLS_FAILURE,
     payload: error
   };
+}
+
+export function resetPolls() {
+  return {
+    type: RESET_POLLS
+  }
 }
 
 export function validatePollFields(props) {

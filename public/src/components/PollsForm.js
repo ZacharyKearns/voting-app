@@ -91,7 +91,7 @@ class PollsForm extends Component {
   render() {
     const {handleSubmit, submitting, newPoll} = this.props;
     return (
-      <div className='container'>
+      <div>
         { this.renderError(newPoll) }
         <form className="col-md-6 col-md-offset-3" onSubmit={ handleSubmit(validateAndCreatePoll) }>
           <Field

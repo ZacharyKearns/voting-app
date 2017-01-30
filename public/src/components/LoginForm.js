@@ -68,7 +68,7 @@ class LoginForm extends Component {
   render() {
     const {asyncValidating, handleSubmit, submitting} = this.props;
     return (
-      <div className="container">
+      <div>
         <form className="col-md-6 col-md-offset-3" onSubmit={ handleSubmit(validateAndLoginUser) }>
           <Field
                  name="username"
