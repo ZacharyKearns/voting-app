@@ -1,5 +1,5 @@
 import PollDetails from '../components/PollDetails.js';
-import { fetchPoll, fetchPollSuccess, fetchPollFailure, resetActivePoll, resetDeletedPoll } from '../actions/polls';
+import { fetchPoll, fetchPollSuccess, fetchPollFailure, resetActivePoll, resetDeletedPoll, resetUpdatedPoll } from '../actions/polls';
 import { connect } from 'react-redux';
 
 
@@ -26,9 +26,10 @@ const mapDispatchToProps = (dispatch) => {
         })
     },
     resetMe: () => {
-      //clean up both activePost(currrently open) and deletedPost(open and being deleted) states
+      //clean up activePost(currrently open), deletedPost(open and being deleted) states
       dispatch(resetActivePoll());
       dispatch(resetDeletedPoll());
+      dispatch(resetUpdatedPoll());
     }
   }
 }

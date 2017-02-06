@@ -34,20 +34,32 @@ class PollsList extends Component {
   // }
 
   renderPolls(polls) {
-    return polls.map((poll) => {
-      return (
-        <li className="list-group-item" key={poll._id} author={poll.authorUsername}>
-          <Link style={{color:'black'}} to={"polls/" + poll._id}>
-            <h3 className="list-group-item-heading">{poll.title}</h3>
-          </Link>
-            {/* {this.renderOptions(poll.options)} */}
-        </li>
-      );
-    });
+    if (!polls.length) {
+      return <span>No Polls To Show.</span>
+    } else {
+      return polls.map((poll) => {
+        return (
+          <li className="list-group-item" key={poll._id} author={poll.authorUsername}>
+            <Link style={{color:'black'}} to={"polls/" + poll._id}>
+              <h3 className="list-group-item-heading">{poll.title}</h3>
+            </Link>
+              {/* {this.renderOptions(poll.options)} */}
+          </li>
+        );
+      });
+    }
   }
 
   render() {
     const { polls, loading, error } = this.props.pollsList;
+    const { type } = this.props;
+    const totalVoteCount = polls.length ? polls
+    .map(poll => poll.options.reduce((pollA, pollB) => {
+      return {votes: pollA.votes + pollB.votes};
+    }))
+    .reduce((pollA, pollB) => {
+      return {votes: pollA.votes + pollB.votes};
+    }).votes : null;
 
     if (loading) {
       return <div className="container"><h1>Polls</h1><h3>Loading...</h3></div>
@@ -59,6 +71,7 @@ class PollsList extends Component {
       <div className="container">
         <div className="col-md-6 col-md-offset-3">
           <h1>Polls</h1>
+          {type == 'mypolls' && totalVoteCount && <h5>Total Vote Count: {totalVoteCount}</h5>}
           <ul className="list-group">
             {this.renderPolls(polls)}
           </ul>

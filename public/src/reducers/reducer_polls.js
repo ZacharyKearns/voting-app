@@ -2,6 +2,7 @@ import {
 	FETCH_POLLS, FETCH_POLLS_SUCCESS, FETCH_POLLS_FAILURE, RESET_POLLS,
 	FETCH_POLL, FETCH_POLL_SUCCESS,  FETCH_POLL_FAILURE, RESET_ACTIVE_POLL,
 	CREATE_POLL, CREATE_POLL_SUCCESS, CREATE_POLL_FAILURE, RESET_NEW_POLL,
+	UPDATE_POLL, UPDATE_POLL_SUCCESS, UPDATE_POLL_FAILURE, RESET_UPDATED_POLL,
 	DELETE_POLL, DELETE_POLL_SUCCESS, DELETE_POLL_FAILURE, RESET_DELETED_POLL,
   VALIDATE_POLL_FIELDS,VALIDATE_POLL_FIELDS_SUCCESS, VALIDATE_POLL_FIELDS_FAILURE, RESET_POLL_FIELDS
 } from '../actions/polls';
@@ -10,6 +11,7 @@ const INITIAL_STATE = { pollsList: {polls: [], error: null, loading: false},
 							newPoll:{poll: null, error: null, loading: false},
 							activePoll:{poll: null, error: null, loading: false},
 							deletedPoll: {poll: null, error: null, loading: false},
+							updatedPoll: {poll: null, error: null, loading: false}
 						};
 
 export default function(state = INITIAL_STATE, action) {
@@ -45,6 +47,16 @@ export default function(state = INITIAL_STATE, action) {
 	  	return {...state, newPoll: {poll: null, error: error, loading: false}}
 	  case RESET_NEW_POLL:
 	  	return {...state,  newPoll: {poll: null, error: null, loading: false}}
+
+		case UPDATE_POLL:
+			return {...state, updatedPoll: {...state.updatedPoll, loading: true}}
+		case UPDATE_POLL_SUCCESS:
+			return {...state, updatedPoll: {poll: action.payload, error: null, loading: false}}
+		case UPDATE_POLL_FAILURE:
+			error = action.payload || {message: action.payload.message};//2nd one is network or server down errors
+			return {...state, updatedPoll: {poll: null, error: error, loading: false}}
+		case RESET_UPDATED_POLL:
+			return {...state,  updatedPoll: {poll: null, error: null, loading: false}}
 
 	  case DELETE_POLL:
 	   	return {...state, deletedPoll: {...state.deletedPoll, loading: true}}

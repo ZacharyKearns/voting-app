@@ -12,6 +12,13 @@ export const CREATE_POLL_SUCCESS = 'CREATE_POLL_SUCCESS';
 export const CREATE_POLL_FAILURE = 'CREATE_POLL_FAILURE';
 export const RESET_NEW_POLL = 'RESET_NEW_POLL';
 
+//Update vote count
+export const UPDATE_POLL = 'UPDATE_POLL';
+export const UPDATE_POLL_SUCCESS = 'UPDATE_POLL_SUCCESS';
+export const UPDATE_POLL_FAILURE = 'UPDATE_POLL_FAILURE';
+export const RESET_UPDATED_POLL = 'RESET_UPDATED_POLL';
+
+
 //Validate poll fields like Title, Categries on the server
 export const VALIDATE_POLL_FIELDS = 'VALIDATE_POLL_FIELDS';
 export const VALIDATE_POLL_FIELDS_SUCCESS = 'VALIDATE_POLL_FIELDS_SUCCESS';
@@ -138,6 +145,42 @@ export function resetNewPoll() {
 export function resetDeletedPoll() {
   return {
     type: RESET_DELETED_POLL
+  }
+}
+
+export function updatePoll(props, tokenFromStorage) {
+  const request = axios({
+    method: 'post',
+    data: props,
+    url: `${ROOT_URL}/polls/${props.id}`,
+    headers: {
+      'Authorization': `Bearer ${tokenFromStorage}`
+    }
+  });
+
+  return {
+    type: UPDATE_POLL,
+    payload: request
+  };
+}
+
+export function updatePollSuccess(updatedPoll) {
+  return {
+    type: UPDATE_POLL_SUCCESS,
+    payload: updatedPoll
+  }
+}
+
+export function updatePollFailure(error) {
+  return {
+    type: UPDATE_POLL_FAILURE,
+    payload: error
+  }
+}
+
+export function resetUpdatedPoll() {
+  return {
+    type: RESET_UPDATED_POLL
   }
 }
 

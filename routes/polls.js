@@ -57,23 +57,14 @@ router.post('/polls', function(req, res, next) {
 
   var body = req.body;
   var title = body.title;
-  var options = body.options.split(',')
+  var options = body.options
+  .split(',')
+  .filter(function(item, pos, self) {
+    return self.indexOf(item) == pos;
+  })
   .map(function(option) {
     return { option: option.trim(), votes: 0 };
   });
-
-  //simulate error if title, categories and content are all "test"
-  //This is demo field-validation error upon submission.
-  // if (title === 'test' && categories === 'test' && content === 'test') {
-  //   return res.status(403).json({
-  //     message: {
-  //       title: 'Title Error - Cant use "test" in all fields!',
-  //       categories: 'Categories Error',
-  //       content: 'Content Error',
-  //       submitmessage: 'Final Error near the submit button!'
-  //     }
-  //   });
-  // }
 
   if (!title || !options) {
     return res.status(400).json({
@@ -117,9 +108,29 @@ router.get('/polls/:id', function(req, res, next) {
         message: 'Poll not found'
       })
     }
+    console.log(poll)
     res.json(poll);
   });
 });
+
+router.post('/polls/:id', function(req, res, next) {
+  console.log(req.params.id)
+  // var user = req.user;
+  // if (!user) {
+  //   return res.status(401).json({
+  //     message: 'Permission Denied!'
+  //   });
+  // }
+
+  Poll.findOneAndUpdate(
+    {'_id': req.params.id, 'options.option': req.body.option},
+    {$inc:{'options.$.votes': 1}},
+    {new: true},
+    function(err, doc) {
+      console.log(doc);
+      res.json(doc);
+    })
+  })
 
 router.delete('/polls/:id', function(req, res, next) {
   if (!req.user) {
