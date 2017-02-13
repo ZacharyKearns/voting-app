@@ -71,7 +71,7 @@ class PollsList extends Component {
       <div className="container">
         <div className="col-md-6 col-md-offset-3">
           <h1>Polls</h1>
-          {type == 'mypolls' && totalVoteCount && <h5>Total Vote Count: {totalVoteCount}</h5>}
+          {type == 'mypolls' && totalVoteCount >= 0 && <h5>Total Vote Count: {totalVoteCount}</h5>}
           <ul className="list-group">
             {this.renderPolls(polls)}
           </ul>
