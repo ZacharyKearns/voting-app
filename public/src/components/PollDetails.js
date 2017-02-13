@@ -2,10 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { updatePoll, updatePollSuccess, updatePollFailure } from '../actions/polls';
+import PieChart from './PieChart';
 
 //For any field errors upon submission (i.e. not instant check)
 const updateActivePoll = (values, dispatch, props) => {
-  const data = {option: values.pollOption, id: props.id};
+  const option = values.customOption ? values : values.pollOption;
+  const data = {option, id: props.id};
   return dispatch(updatePoll(data, sessionStorage.getItem('jwtToken')))
     .then(result => {
       // Note: Error's "data" is in result.payload.response.data (inside "response")
@@ -49,7 +51,14 @@ class PollDetails extends Component {
 
   render() {
     const { poll, loading, error } = this.props.activePoll;
-    const { handleSubmit, submitting, updatedPoll, pristine } = this.props;
+    const { handleSubmit,
+      submitting,
+      updatedPoll,
+      pristine,
+      submitSucceeded,
+      authenticatedUser,
+      pollForm,
+      dirty } = this.props;
 
     if (loading) {
       return <div className="container">Loading...</div>;
@@ -61,6 +70,15 @@ class PollDetails extends Component {
 
     const options = poll.options.map(option => <option>{option.option}</option>);
     const votes = poll.options.map(option => <li className="list-group-item">{option.option}: {option.votes}</li>);
+    const voteCount = poll.options.filter(option => option.votes > 0);
+    const url = `https://twitter.com/home?status=Vote%20on%20this%20awesome%20poll!%20${window.location.href}%20%23freeCodeCamp`;
+    var disableInput = false;
+    var disableSelect = false;
+
+    if (dirty) {
+      disableInput = pollForm.PollDetails.values.pollOption ? true : false;
+      disableSelect = pollForm.PollDetails.values.customOption ? true : false;
+    }
 
     return (
       <div>
@@ -68,8 +86,12 @@ class PollDetails extends Component {
         <form className="col-md-6" onSubmit={ handleSubmit(updateActivePoll) }>
           <div className="form-group row">
             <h3>{poll.title}</h3>
-            <Field className="form-control" component="select" name="pollOption">
-              <option></option>
+            <Field
+              className="form-control"
+              component="select"
+              name="pollOption"
+              disabled={submitSucceeded || disableSelect}>
+              <option value="">Select an option:</option>
               {options}
             </Field>
           </div>
@@ -77,13 +99,38 @@ class PollDetails extends Component {
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={ submitting || pristine }>
+              style="margin-right:10px;margin-bottom:10px"
+              disabled={ submitting || pristine || submitSucceeded }>
               Submit
             </button>
+            {authenticatedUser && <a
+              href={url}
+              role="button"
+              className="btn btn-default"
+              target="_blank"
+              style="margin-right:10px;margin-bottom:10px;">
+              Share on Twitter
+            </a>}
+            {authenticatedUser && <span className="form-inline">
+              <label
+              style="margin-right:10px;">
+              Add A Custom Option: 
+              </label>
+              <Field
+                style="max-width:200px"
+                className="form-control"
+                component="input"
+                name="customOption"
+                disabled={submitting || submitSucceeded || disableInput}/>
+            </span>}
+          </div>
+          <div class="form-group row">
+            {submitSucceeded && <span>Thank You For Voting!</span>}
           </div>
         </form>
         <div className="col-md-6">
           <h3>Votes:</h3>
+          {voteCount.length > 0 && <PieChart poll={poll}/>}
           <ul className="list-group">
             {votes}
           </ul>

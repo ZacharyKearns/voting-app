@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 
 
 
-function mapStateToProps(globalState, ownProps) {
+function mapStateToProps(state, ownProps) {
   return {
-    activePoll: globalState.polls.activePoll,
-    pollId: ownProps.id
+    activePoll: state.polls.activePoll,
+    pollId: ownProps.id,
+    authenticatedUser: state.user.status === 'authenticated' ? state.user.user : null,
+    pollForm: state.form
   };
 }
 

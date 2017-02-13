@@ -93,7 +93,6 @@ router.post('/polls', function(req, res, next) {
 });
 
 router.get('/polls/:id', function(req, res, next) {
-  console.log(req.params)
   Poll.findById({
     '_id': req.params.id
   }, function(err, poll) {
@@ -114,7 +113,6 @@ router.get('/polls/:id', function(req, res, next) {
 });
 
 router.post('/polls/:id', function(req, res, next) {
-  console.log(req.params.id)
   // var user = req.user;
   // if (!user) {
   //   return res.status(401).json({
@@ -122,12 +120,15 @@ router.post('/polls/:id', function(req, res, next) {
   //   });
   // }
 
+  var query = req.body.option.customOption ? {'_id': req.params.id} : {'_id': req.params.id, 'options.option': req.body.option};
+  var update = req.body.option.customOption ? {$push:{'options': {'option': req.body.option.customOption.trim(), 'votes': 1}}} : {$inc:{'options.$.votes': 1}};
+
   Poll.findOneAndUpdate(
-    {'_id': req.params.id, 'options.option': req.body.option},
-    {$inc:{'options.$.votes': 1}},
-    {new: true},
+    query,
+    update,
+    {upsert: true, new: true},
     function(err, doc) {
-      console.log(doc);
+      if (err) throw err;
       res.json(doc);
     })
   })

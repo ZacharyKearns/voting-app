@@ -152,10 +152,7 @@ export function updatePoll(props, tokenFromStorage) {
   const request = axios({
     method: 'post',
     data: props,
-    url: `${ROOT_URL}/polls/${props.id}`,
-    headers: {
-      'Authorization': `Bearer ${tokenFromStorage}`
-    }
+    url: `${ROOT_URL}/polls/${props.id}`
   });
 
   return {

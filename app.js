@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
-//var compression = require('compression');
+var compression = require('compression');
 
 //routes
 var users = require('./routes/users');
@@ -18,7 +18,7 @@ var app = express();
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-//app.use(compression());
+app.use(compression());
 
 app.get('*.js', function (req, res, next) {
   req.url = req.url + '.gz';
@@ -89,11 +89,11 @@ app.use(function(req, res, next) {
 });
 
 
-// app.use(function(err, req, res, next) {
-//   console.error(err.stack);
-//   console.log(1)
-//   res.status(500).send('Uh oh! Something broke!');
-// });
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  console.log(1)
+  res.status(500).send('Uh oh! Something broke!');
+});
 
 
 // error handlers
