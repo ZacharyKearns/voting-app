@@ -1,7 +1,10 @@
 # freeCodeCamp Voting App
 
 #Live App
-https://protected-escarpment-79486.herokuapp.com/
+https://shielded-dawn-63022.herokuapp.com/
+
+#Boilerplate
+https://github.com/rajaraodv/react-redux-blog
 
 #Local Installation
 1. Install <a href="https://nodejs.org" target="_blank">Node.js</a> 
