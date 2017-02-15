@@ -113,13 +113,6 @@ router.get('/polls/:id', function(req, res, next) {
 });
 
 router.post('/polls/:id', function(req, res, next) {
-  // var user = req.user;
-  // if (!user) {
-  //   return res.status(401).json({
-  //     message: 'Permission Denied!'
-  //   });
-  // }
-
   var query = req.body.option.customOption ? {'_id': req.params.id} : {'_id': req.params.id, 'options.option': req.body.option};
   var update = req.body.option.customOption ? {$push:{'options': {'option': req.body.option.customOption.trim(), 'votes': 1}}} : {$inc:{'options.$.votes': 1}};
 

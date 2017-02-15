@@ -2,7 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { updatePoll, updatePollSuccess, updatePollFailure } from '../actions/polls';
+import renderCustomOption from './renderCustomOption';
 import PieChart from './PieChart';
+
+function validate(values, props) {
+  var errors = {};
+
+  if (props.activePoll.poll) {
+    const options = props.activePoll.poll.options.map(option => option.option);
+    if (options.indexOf(values.customOption) > -1) {
+      errors.customOption = ' Must be a unique option!';
+    }
+  }
+  return errors;
+}
 
 //For any field errors upon submission (i.e. not instant check)
 const updateActivePoll = (values, dispatch, props) => {
@@ -58,7 +71,10 @@ class PollDetails extends Component {
       submitSucceeded,
       authenticatedUser,
       pollForm,
-      dirty } = this.props;
+      dirty,
+      syncErrors } = this.props;
+
+      console.log(this.props)
 
     if (loading) {
       return <div className="container">Loading...</div>;
@@ -74,10 +90,12 @@ class PollDetails extends Component {
     const url = `https://twitter.com/home?status=Vote%20on%20this%20awesome%20poll!%20${window.location.href}%20%23freeCodeCamp`;
     var disableInput = false;
     var disableSelect = false;
+    var syncError = false;
 
     if (dirty) {
       disableInput = pollForm.PollDetails.values.pollOption ? true : false;
       disableSelect = pollForm.PollDetails.values.customOption ? true : false;
+      syncError = pollForm.PollDetails.syncErrors ? true : false;
     }
 
     return (
@@ -100,7 +118,7 @@ class PollDetails extends Component {
               type="submit"
               className="btn btn-primary"
               style="margin-right:10px;margin-bottom:10px"
-              disabled={ submitting || pristine || submitSucceeded }>
+              disabled={ submitting || pristine || submitSucceeded || syncError}>
               Submit
             </button>
             {authenticatedUser && <a
@@ -111,18 +129,15 @@ class PollDetails extends Component {
               style="margin-right:10px;margin-bottom:10px;">
               Share on Twitter
             </a>}
-            {authenticatedUser && <span className="form-inline">
-              <label
-              style="margin-right:10px;">
-              Add A Custom Option: 
-              </label>
+            {authenticatedUser && 
               <Field
-                style="max-width:200px"
-                className="form-control"
-                component="input"
                 name="customOption"
-                disabled={submitting || submitSucceeded || disableInput}/>
-            </span>}
+                type="text"
+                component={renderCustomOption}
+                label="Add A Custom Option "
+                disableInput={disableInput}
+                submitting={submitting}
+                submitSucceeded={submitSucceeded}/>}
           </div>
           <div class="form-group row">
             {submitSucceeded && <span>Thank You For Voting!</span>}
@@ -141,5 +156,6 @@ class PollDetails extends Component {
 }
 
 export default reduxForm({
-  form: 'PollDetails'
+  form: 'PollDetails',
+  validate
 })(PollDetails)

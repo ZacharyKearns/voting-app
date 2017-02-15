@@ -24,15 +24,6 @@ class PollsList extends Component {
      this.props.resetMe();
   }
 
-  // renderOptions(options) {
-  //    return options.map(o => {
-  //       o = o.trim();
-  //       return (
-  //         <span className="list-group-item-text">{" " + o + " "}</span>
-  //       );
-  //    });
-  // }
-
   renderPolls(polls) {
     if (!polls.length) {
       return <span>No Polls To Show.</span>
@@ -43,7 +34,6 @@ class PollsList extends Component {
             <Link style={{color:'black'}} to={"polls/" + poll._id}>
               <h3 className="list-group-item-heading">{poll.title}</h3>
             </Link>
-              {/* {this.renderOptions(poll.options)} */}
           </li>
         );
       });
