@@ -1,4 +1,4 @@
-# freeCodeCamp Voting App
+#freeCodeCamp Voting App
 
 #Live App
 https://shielded-dawn-63022.herokuapp.com/
@@ -12,13 +12,6 @@ https://github.com/rajaraodv/react-redux-blog
 3. `git clone https://github.com/rajaraodv/react-redux-blog.git`
 4. `cd react-redux-blog`
 5. `npm install`
-6. Create a free <a href="https://postmarkapp.com" target="_blank">PostMark</a> account for sending (confirm email, forgot pwd) emails.
-  * Export Postmark credentials to environment
-  * `export POSTMARK_API_TOKEN=<getApiTokenFromWInPostmark>`
-  * Alternatively, you can run the app on Heroku, add Postmark addon (which adds a free account and sets `POSTMARK_API_TOKEN` to the app running on Heroku). You can then get that `POSTMARK_API_TOKEN` by running: `heroku config:get POSTMARK_API_TOKEN` and then export the token to the terminal. This will now allow you to send email from localhost.
-
-####Preventing Emails From Getting Blocked by GMail, Yahoo etc.
-NOTE: In order to send email via PostMark or Sendgrid, you need to verify sender's email(from address). In PostMark you can do that by setting your company or other private email(e.g. raja@rao.com) and verifying that. Then you can use **THAT** company or private email(e.g. raja@rao.com) in the FROM address.
 
 #Running Locally
 *You need two terminal windows open*, one for client and the other for server.
@@ -26,16 +19,12 @@ NOTE: In order to send email via PostMark or Sendgrid, you need to verify sender
 ####Development
 1. In terminal 1, 
 	1. `export JWT_SECRET=somesecretstring` <-- This is used to generate JWT tokens.
-	2. `export POSTMARK_API_TOKEN=<getApiTokenFromWInPostmark>` <-- Email
-	3. `export FROM_EMAIL=<yourFromEmailThatIsRegisteredInPostMark> <-- "From"-Email Address that you verified w/ PostMark
 	4. run `npm start`. This runs the app server (Express). 
 2. In terminal 2, run: `npm run dev`. This runs the development server(webpack-dev-server).
 3. Open browser and go to: `localhost:8080`
 
 ```
 export JWT_SECRET=somesecret
-export POSTMARK_API_TOKEN=bla-bla-bla-9619-a6d1185548cd
-export FROM_EMAIL=yourcompanyemail@company.com
 export NODE_ENV=development
 ```
 
@@ -57,7 +46,6 @@ Running your own instance on <a href="https://heroku.com">Heroku</a>.
 4. `heroku init`
 5. `heroku create` 
 6. `heroku addons:create mongolab`  <-- Add Mongolab test DB (free tier)
-7. `heroku addons:create postmark:10k` <-- Postmark Email (free tier)
 8. `git push heroku master`
 
 ###Making changes to your app and pushing it to Heroku
